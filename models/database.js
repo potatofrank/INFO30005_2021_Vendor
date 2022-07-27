@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 
 // Connect to MongoDB - database login is retrieved from environment variables - YOU SHOULD USE YOUR OWN ATLAS CLUSTER
 CONNECTION_STRING = "mongodb+srv://<username>:<password>@cluster0.nm8oy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-MONGO_URL = CONNECTION_STRING.replace("<username>",process.env.MONGO_USERNAME).replace("<password>",process.env.MONGO_PASSWORD)
+MONGO_URL = CONNECTION_STRING.replace("<username>","yichao").replace("<password>","Yyc741108")
 
 //esteblish the connection
 mongoose.connect(MONGO_URL || "mongodb://localhost", {
