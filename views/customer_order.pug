@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/stylesheets/customer_order.css')
+    script(src="https://kit.fontawesome.com/d66b1d76b9.js" crossorigin='anonymous') 
+    block head
+body
+
+  span
+    a.icon(href="/customer/menu/dashboard")
+      icon.fas.fa-chevron-left
+  h1.header Order History
+  if(orders)
+    each order_item in orders
+        if(order_item.CustomerID === user.userID)
+            .each_order
+                p.time Order Time: 
+                span.sub_time  #{order_item.OrderedTime}
+                span.time Order status: #{order_item.OrderStatus}
+                .order_product
+                each snack in order_item.OrderedProduct
+                    p #{snack.snack_name} * #{snack.quantity}
+
+                <div class="order_footer">
+                <span class="rating"> <span class="star">★</span> Rating this order </span>
+                <span class="price"> $#{order_item.totalPrice} </span>
+                </div>
+
+
+  br
+  footer  NO MORE RESULT! 
+  br

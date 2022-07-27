@@ -1,0 +1,114 @@
+link(rel='stylesheet', href='/stylesheets/vendor.css')
+script(src='https://unpkg.com/leaflet@1.4.0/dist/leaflet.js' integrity='sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==' crossorigin='')
+link(rel='stylesheet' href='https://unpkg.com/leaflet@1.4.0/dist/leaflet.css' integrity='sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==' crossorigin='')
+script(src='https://kit.fontawesome.com/d66b1d76b9.js' crossorigin='anonymous')
+
+style.
+  #mymap {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 0;
+  top: 0;
+  }
+
+#mymap
+#openBusiness
+    
+    .navContainer
+        button.navButton(onclick='openNav()') 
+            i.fas.fa-bars
+    #mySidenav.sidenav
+        
+        button.navButtonOpen(onclick='closeNav()') 
+            i.fas.fa-bars
+
+        p.welcome Welcome! #{user.van_name}
+        
+        i.fas.fa-pizza-slice
+            a(href='/vendor') Business 
+            
+        i.fas.fa-history
+            a(href='/vendor/order_history') Order History
+
+        i.fas.fa-comment-dots
+            a(href='/vendor/review') My review
+
+        if(user.isOpen === true)
+            i.fas.fa-scroll
+                a(href='/vendor/order') Ongoing Orders
+
+        form(action='/vendor/closeVan', method='POST')
+                input(type="hidden" name="van_name" value=user.van_name)
+                input(type="hidden" name="closed" value= 'true')
+                button.logout(type='submit')
+                    <i class="fas fa-sign-out-alt"></i> LOGOUT
+                        
+                        
+    .h1 Snack in a Van
+    if(user.isOpen === false)
+        form(action='/vendor', method='POST')
+            .form-group
+                label.enterLocation(for='location')
+                input#location.form-control(type='location', name='location', placeholder='Enter Your Location')
+            input(type="hidden" name="van_name" value=user.van_name)
+            input(type="hidden" name="Latitude" id="Latitude")
+            input(type="hidden" name="Longitude" id="Longitude")
+            button.confirmOpen(type='ready', onclick='validate()') Open Business
+        
+        br
+    else
+        .body
+            h1 Your vendor is now opened!
+            h1 The current location of your vendor is: 
+            h1 #{user.location}.
+            br
+            form(action='/vendor/order', method='GET')
+                button.buttonContainerOngoing(href='/vendor/order') Ongoing Orders
+            form(action='/vendor/closeVan', method='POST')
+                input(type="hidden" name="van_name" value=user.van_name)
+                input(type="hidden" name="closed" value= 'false')
+                button.button.red(type='submit')  Close Vendor
+    
+            
+        //<i class="far fa-smile-wink"></i>
+
+
+script. 
+    if('geolocation' in navigator){
+        console.log('geolocation available');
+        navigator.geolocation.getCurrentPosition(position => {
+            lat = position.coords.latitude;
+            lon = position.coords.longitude;
+            console.log(lat, lon);
+            document.getElementById('Latitude').value = lat;
+            document.getElementById('Longitude').value = lon;
+            const mymap = L.map('mymap').setView([lat, lon], 15);
+            const attribution =
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+            const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            const tiles = L.tileLayer(tileUrl, { attribution });
+            tiles.addTo(mymap);
+            const marker = L.marker([lat, lon]).addTo(mymap).bindPopup("You're here");
+        })
+    } else {
+        console.log('geolocation not available');
+    }
+
+script.
+    function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    }
+script.
+    function validate(){
+        var input_text= document.getElementById("location")
+        if(input_text.value==""){
+            alert("Please Enter a Location");
+            return false;
+        }
+        return true;
+    }

@@ -1,0 +1,14 @@
+.headerContainer {
+    width: 75%;
+    height: 50%;
+    text-align: center;
+    padding-top: 25%;
+    padding-left:12%;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    font-size: large;
+
+}
+body {
+    background-color: #EAF8E1;
+}

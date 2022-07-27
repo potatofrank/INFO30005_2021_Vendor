@@ -1,0 +1,107 @@
+link(rel='stylesheet', href='/stylesheets/review.css')
+script(src="https://kit.fontawesome.com/d66b1d76b9.js" crossorigin='anonymous') 
+
+.navContainer
+    button.navButton(onclick='openNav()') 
+        i.fas.fa-bars
+
+#mySidenav.sidenav
+
+    button.navButtonOpen(onclick='closeNav()') 
+        i.fas.fa-bars
+
+    p.welcome Welcome! #{user.van_name}
+    
+    i.fas.fa-pizza-slice
+        a(href='/vendor') Business 
+        
+    i.fas.fa-history
+        a(href='/vendor/order_history') Order History
+
+    i.fas.fa-comment-dots
+        a(href='/vendor/review') My review
+
+    if(user.isOpen === true)
+        i.fas.fa-scroll
+            a(href='/vendor/order') Ongoing Orders
+
+    form(action='/vendor/closeVan', method='POST')
+            input(type="hidden" name="van_name" value=user.van_name)
+            input(type="hidden" name="closed" value= 'true')
+            button.logout(type='submit')
+                <i class="fas fa-sign-out-alt"></i> LOGOUT
+
+
+//- if(orders)
+//-     each order in orders 
+//-         if(order.current_van === user.van_name)
+//-             if(order.OrderStatus === "Delivered")
+//-                 if(order.isRated === true)
+//-                     h1 OrderID: #{order.OrderID}
+//-                     h1 rating out of 5: #{order.rating}
+//-                     h1 review: #{order.review}
+
+h1 Review
+.line
+
+if(orders)
+    .allReviews
+        each order in orders 
+            if(order.current_van === user.van_name)
+                if(order.OrderStatus === "Delivered")
+                    if(order.isRated === true)
+                        .reviewContainer 
+                            img.icon(src='/images/icon1.png')
+                            .ratingContainer
+                                if(order.rating=="0")
+                                    i.fas.fa-star
+                                    i.fas.fa-star
+                                    i.fas.fa-star
+                                    i.fas.fa-star
+                                    i.fas.fa-star
+                                if(order.rating=="1")
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star
+                                    i.fas.fa-star
+                                    i.fas.fa-star
+                                    i.fas.fa-star
+                                if(order.rating=="2")
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star
+                                    i.fas.fa-star
+                                    i.fas.fa-star
+                                if(order.rating=="3")
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star
+                                    i.fas.fa-star
+                                if(order.rating=="4")
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star
+                                if(order.rating=="5")
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star.gold
+                                    i.fas.fa-star.gold
+                                .name #{order.CustomerInfo}
+                            if (order.review)     
+                                .comment #{order.review}
+                            else 
+                                .noComment There is no comment...
+        .anyclass 
+
+
+script.
+    function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    }

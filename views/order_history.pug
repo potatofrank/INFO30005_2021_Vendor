@@ -1,0 +1,88 @@
+script(src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js")
+link(rel='stylesheet', href='/stylesheets/order_history.css')
+script(src='https://unpkg.com/leaflet@1.4.0/dist/leaflet.js' integrity='sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==' crossorigin='')
+link(rel='stylesheet' href='https://unpkg.com/leaflet@1.4.0/dist/leaflet.css' integrity='sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==' crossorigin='')
+script(src='https://kit.fontawesome.com/d66b1d76b9.js' crossorigin='anonymous')
+
+.navContainer
+    button.navButton(onclick='openNav()') 
+        i.fas.fa-bars
+#mySidenav.sidenav
+    
+    button.navButtonOpen(onclick='closeNav()') 
+        i.fas.fa-bars
+
+    p.welcome Welcome! #{user.van_name}
+    
+    i.fas.fa-pizza-slice
+        a(href='/vendor') Business 
+        
+    i.fas.fa-history
+        a(href='/vendor/order_history') Order History
+
+    i.fas.fa-comment-dots
+        a(href='/vendor/review') My review
+
+    if(user.isOpen === true)
+        i.fas.fa-scroll
+            a(href='/vendor/order') Ongoing Orders
+
+    form(action='/vendor/closeVan', method='POST')
+            input(type="hidden" name="van_name" value=user.van_name)
+            input(type="hidden" name="closed" value= 'true')
+            button.logout(type='submit')
+                <i class="fas fa-sign-out-alt"></i> LOGOUT
+        
+.title Snacks in a van
+    .box VENDOR Version
+.page  
+    
+    .content 
+        .title2 Order history
+        if(orders)
+        each product,id  in orders 
+            if(product.OrderStatus === "Delivered")
+                .info
+                    .info1 #{product.OrderID}
+                    .info2 #{product.CustomerInfo.toUpperCase().split(" ")[0][0]+"."+product.CustomerInfo.toUpperCase().split(" ")[1][0]}
+                    .info3
+                        each Object in product.OrderedProduct
+                                span   #{Object.snack_name} * #{Object.quantity}
+                .order_detail
+                    p  OrderID: #{product.OrderID} 
+                    p  Customer: #{product.CustomerInfo} 
+                    p  Start Time : #{product.DetailTime}
+                    p  Order: 
+                    each Object in product.OrderedProduct
+                                p  #{Object.snack_name} * #{Object.quantity}
+                    p  Total Price: $#{product.totalPrice} 
+           
+                      
+    
+    .detail
+        .title2 Details 
+        
+
+
+
+
+script.
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function showDetail(){
+        
+    }
+
+script.
+    
+    $(".info").click(function(){
+        $(".order_detail").hide();
+        $(this).next().css({"display":"block"});
+    })

@@ -1,0 +1,19 @@
+link(rel='stylesheet', href='/stylesheets/homepage.css')
+
+.headerContainer
+    h1 Welcome to our Vendor APP
+    span Feel free to try our Vendor APP features by 
+    br
+    span using the link -> 
+    if(user)
+        if(!user.isOpen)  
+            
+            a(href='/vendor/login') Snacks in a Van - Vendor version 
+        else
+            
+            a(href='/vendor') Snacks in a Van - Vendor version
+    else 
+        
+        a(href='/vendor/login') Snacks in a Van - Vendor version 
+    p Wish you lots of fun of using our APP! 
+
